@@ -2,7 +2,9 @@ package com.application.matihaw17.licznikodleglosci;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
@@ -54,7 +56,8 @@ public class CountActivity extends AppCompatActivity {
                         fileWriter.write(initialCourseValueText);
                         Toast.makeText(context,"Przebieg został zapisany pomyślnie", Toast.LENGTH_LONG).show();
                         fileWriter.close();
-                        refreshCurrentCourseAmount();
+                        Intent main = new Intent(context,MainActivity.class);
+                        startActivity(main);
 
                 }catch (Exception e){
                     Toast.makeText(context,"Błąd: " + e,Toast.LENGTH_LONG).show();      ///exceptions
@@ -88,15 +91,18 @@ public class CountActivity extends AppCompatActivity {
                     Date date = new Date();                                                                 ///get Curr data
                     SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");                ///format date
                     fileWriter = new FileWriter(courseDifferenceFile, true);
-                    fileWriter.write("Przejechałaś: " + Double.toString(courseDifference)+" km, dnia: "+ formatter.format(date) + System.lineSeparator());      ///write to file amount fo kilometers with date
-                    courseDifferenceTextView.setText("Przejechałaś teraz: " + Double.toString(courseDifference) + "km");    ///display amount of kilometers
+                    double kmToToast = courseDifference*100;
+                    kmToToast = Math.round(kmToToast);
+                    kmToToast /=100;
+                    fileWriter.write("Przejechałaś: " + kmToToast+" km, dnia: "+ formatter.format(date) + System.lineSeparator());      ///write to file amount fo kilometers with date
+                    courseDifferenceTextView.setText("Przejechałaś teraz: " + kmToToast + " km");    ///display amount of kilometers
                     fileWriter.close();
 
                     File wholeKilometers = new File(Environment.getExternalStorageDirectory()+File.separator+"LicznikPrzebiegu","wholeKilometers.txt");
                     if(!wholeKilometers.exists()){
                         wholeKilometers.createNewFile();
                         fileWriter = new FileWriter(wholeKilometers);
-                        fileWriter.append('0');
+                        fileWriter.append("");
                         fileWriter.close();
                     }
                     fileReader = new Scanner(wholeKilometers);
@@ -107,7 +113,6 @@ public class CountActivity extends AppCompatActivity {
                     fileWriter.write(Double.toString(finnalKilometersAmount));
                     fileWriter.close();
                     fileReader.close();
-
                 }catch (NoSuchElementException e){
                     Toast.makeText(context,"Nie podałas wszystkich danych" , Toast.LENGTH_LONG).show();
                 }catch (Exception e){

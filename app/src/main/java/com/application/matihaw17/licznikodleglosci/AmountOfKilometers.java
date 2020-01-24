@@ -27,7 +27,11 @@ public class AmountOfKilometers extends AppCompatActivity {
             TextView showAmountOfKilometers = findViewById(R.id.textView8);
             File wholeKilometers = new File(Environment.getExternalStorageDirectory()+File.separator+"LicznikPrzebiegu","wholeKilometers.txt");
             Scanner wholeKilometersScanner = new Scanner(wholeKilometers);
-            showAmountOfKilometers.setText(wholeKilometersScanner.nextLine()+"km");
+            Double wgoleKilometersDouble = Double.valueOf(wholeKilometersScanner.nextLine());
+            double wholeKilomeretsOutput = wgoleKilometersDouble*100;
+            wholeKilomeretsOutput = Math.round(wholeKilomeretsOutput);
+            wholeKilomeretsOutput /=100;
+            showAmountOfKilometers.setText(wholeKilomeretsOutput+" km");
         }catch (Exception e){
             Toast.makeText(context,"Błąd: " + e, Toast.LENGTH_LONG).show();
         }

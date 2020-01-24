@@ -62,7 +62,7 @@ public class History_activity extends AppCompatActivity {
                                     courseDifferenceFile.createNewFile();    ///create file
                                 }
                                 FileWriter fileWriter = new FileWriter(courseDifferenceFile);
-                                fileWriter.write("0");
+                                fileWriter.write("");
                                 fileWriter.close();
                                 Toast.makeText(getApplicationContext(), "Historia została wyczyszczona", Toast.LENGTH_SHORT).show();
                                 setContentView(R.layout.history_activity);
